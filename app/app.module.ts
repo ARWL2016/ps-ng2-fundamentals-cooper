@@ -8,20 +8,41 @@ import { NavBarComponent } from "./nav/navbar.component";
 import { EventService } from "./events/shared/event.service";
 import { ToastrService } from "./common/toastr.service";
 import { EventDetailsComponent } from "./events/event-details/event-details.component";
+import { RouterModule } from "@angular/router";
+import { appRoutes } from "./routes";
+import { CreateEventComponent } from "./events/create-event.component";
+import { Error404Component } from "./errors/404.component";
+import { EventRouteActivator } from "./events/event-route-activator.service";
 
 
 @NgModule({
   imports: [
-    BrowserModule
+    BrowserModule, 
+    RouterModule.forRoot(appRoutes)
   ], 
   declarations: [
     EventsAppComponent, 
     NavBarComponent,
     EventsListComponent, 
     EventThumbnailComponent, 
-    EventDetailsComponent
+    EventDetailsComponent, 
+    CreateEventComponent,
+    Error404Component 
+
   ], 
-  providers: [ EventService, ToastrService ], 
+  providers: [ 
+    EventService, 
+    ToastrService, 
+    EventRouteActivator,
+    {
+      provide: 'canDeactivateCreateEvent', 
+      useValue: checkDirtyState
+    }
+     ], 
   bootstrap: [ EventsAppComponent ]
 })
 export class AppModule{}
+
+function checkDirtyState() {
+  return false; 
+}
