@@ -4,10 +4,7 @@ import { EventService } from "./shared/event.service";
 
 
 @Component({
-  template: `
-    <button type="submit" class="btn btn-primary">Save</button>
-    <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
-  `,
+  templateUrl: 'app/events/create-event.component.html',
   styles: [`
     em {float:right; color:#E05C65; padding-left:10px;}
     .error input {background-color:#E3C3C5;}
@@ -21,12 +18,14 @@ export class CreateEventComponent {
   isDirty:boolean = true;
   constructor(private router: Router, private eventService:EventService) {
   }
+
   saveEvent(formValues) {
-    this.isDirty = false
-    this.router.navigate(['/events'])
+    this.eventService.saveEvent(formValues); 
+    this.isDirty = false;
+    this.router.navigate(['/events']);
   }
 
   cancel() {
-    this.router.navigate(['/events'])
+    this.router.navigate(['/events']);
   }
 }
