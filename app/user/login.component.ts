@@ -9,6 +9,7 @@ import { Router } from '@angular/router'
   `]
 })
 export class LoginComponent {
+  loginInvalid = false; 
   constructor(
     private authService:AuthService, 
     private router:Router
@@ -17,7 +18,14 @@ export class LoginComponent {
 
   login(formValues) {
     this.authService.loginUser(formValues.userName, formValues.password)
-    this.router.navigate(['events'])
+      .subscribe(resp => {
+        if(!resp) {
+          this.loginInvalid = true; 
+        } else {
+          this.router.navigate(['events']); 
+        }
+      })
+    
   }
 
   cancel() {
